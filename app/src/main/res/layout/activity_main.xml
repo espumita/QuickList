@@ -16,7 +16,8 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/LinearLayoutVertical">
+        android:id="@+id/LinearLayoutVertical"
+        android:divider="@color/VerdeMio">
 
     </LinearLayout>
 </RelativeLayout>

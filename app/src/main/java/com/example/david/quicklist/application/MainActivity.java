@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.david.quicklist.R;
 import com.example.david.quicklist.controler.Command;
 import com.example.david.quicklist.controler.PressButtonCommand;
 
@@ -14,12 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private MainActivity mainActivityReference;
     private Map<String, Command> commands;
     private Map<String,View> components;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainActivityReference = this;
         commands = new HashMap<>();
         components = new HashMap<>();
         deployUi();
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createCommands() {
-        commands.put("pressButton",new PressButtonCommand(components));
+        commands.put("pressButton", new PressButtonCommand(mainActivityReference, components));
     }
 
     private void deployUi() {
@@ -39,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button oneButton() {
         Button button = new Button(this);
-        components.put("oneButton",button);
-        button.setText("Press me");
+        components.put("oneButton", button);
+        button.setText(R.string.button_text);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,5 +51,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return button;
+    }
+
+    public int getColorFromResource(int colorReference){
+        return getResources().getColor(colorReference);
     }
 }
