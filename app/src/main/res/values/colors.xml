@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="AzulMio">#10c4c7</color>
-    <color name="RojoMio">#FFDC0F0F</color>
-    <color name="VerdeMio">#FF09EA0D</color>
+    <color name="colorGrey">#808080</color>
+    <color name="annotationYellow">#FFFBB9</color>
+    <color name="annotationGreen">#FF09EA0D</color>
 </resources>
