@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorGrey">#808080</color>
-    <color name="annotationYellow">#FFFBB9</color>
-    <color name="annotationGreen">#FF09EA0D</color>
+    <color name="colorPrimary">#FFEB3B</color>
+    <color name="colorPrimaryDark">#FBC02D</color>
+    <color name="colorAccent">#50514F</color>
+    <color name="colorBackGround">#F8BBD0</color>
+    <color name="colorAnnotationOne">#E6EE9C</color>
+    <color name="colorAnnotationTwo">#76ff03</color>
+    <color name="colorBar">#E91E63</color>
+    <color name="colorLightLetters">#ffffff</color>
+    <color name="colorDarkLetters">#000000</color>
 </resources>

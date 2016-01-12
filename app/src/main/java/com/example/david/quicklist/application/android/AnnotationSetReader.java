@@ -6,12 +6,22 @@ import java.util.List;
 public class AnnotationSetReader {
 
     public List<String> read() {
-        List<String> annotationSet = new ArrayList<>();
-        annotationSet.add("First list");
-        annotationSet.add("Second list");
-        annotationSet.add("Shopping List");
-        annotationSet.add("Another List");
-        annotationSet.add("Weekend List");
-        return annotationSet;
+        List<String> annotationList = new ArrayList<>();
+        annotationList.add("First list");
+        annotationList.add("Second list");
+        annotationList.add("Shopping List");
+        annotationList.add("Another List");
+        annotationList.add("Weekend List");
+        annotationList.add("First list");
+        annotationList.add("Second list");
+        annotationList.add("Shopping List");
+        annotationList.add("Another List");
+        annotationList.add("Weekend List");
+        annotationList.add("First list");
+        annotationList.add("Second list");
+        annotationList.add("Shopping List");
+        annotationList.add("Another List");
+        annotationList.add("Weekend List");
+        return annotationList;
     }
 }

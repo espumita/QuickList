@@ -17,8 +17,10 @@ public class TaskListLayout extends Button implements TaskListDisplay{
     }
 
     private void deployUI() {
-        this.setBackgroundColor(getResources().getColor(R.color.annotationYellow));
+        this.setBackgroundColor(getResources().getColor(R.color.colorAnnotationOne));
+        this.setTextColor(getResources().getColor(R.color.colorDarkLetters));
         this.setText(taskList.name());
+        this.setPadding(0,0,0,0);
     }
 
 
