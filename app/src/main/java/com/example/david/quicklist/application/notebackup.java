@@ -9,8 +9,8 @@ import com.example.david.quicklist.R;
 
 import java.util.ArrayList;
 
-public class NoteActiviTy {
-    public NoteActiviTy() {
+public class notebackup {
+    public notebackup() {
         //http://stackoverflow.com/questions/4540754/dynamically-add-elements-to-a-listview-android
 
         //RelativeLayout relativeLayout = new RelativeLayout(this);

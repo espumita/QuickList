@@ -1,6 +1,7 @@
 package com.example.david.quicklist.application;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,6 @@ import com.example.david.quicklist.controler.Command;
 import com.example.david.quicklist.controler.PressButtonCommand;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ApplicationMainActivity extends AppCompatActivity {
@@ -45,11 +45,11 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void initDB() {
         manager = new DataBaseManager(this);
-       //manager.insert("1name","1content");
-       //manager.insert("2name","2content");
-       //manager.insert("3name","3content");
-       //manager.insert("4name","4content");
-       //manager.insert("5name","5content");
+        //manager.insert("1name","1content");
+        //manager.insert("2name","2content");
+        //manager.insert("3name","3content");
+        //manager.insert("4name","4content");
+        //manager.insert("5name","5content");
         cursor = manager.loadAnnotationsCursor();
     }
 
@@ -70,14 +70,6 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void deployUi() {
         setContentView(relativeLayout());
-        //ScrollView scrollView = new ScrollView(this);
-        //scrollView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        //RadioGroup radioGroup = new RadioGroup(this);
-        //radioGroup.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        //scrollView.addView(radioGroup);
-        //linearLayout.addView(scrollView);
-        //radioGroup.addView(oneButton(), new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-        //for(String annotation : annotationList )radioGroup.addView(annotation(annotation),new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
     }
 
     private RelativeLayout relativeLayout() {
@@ -123,6 +115,7 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     public void changeVerticalListItemBackgroundColor(View view) {
         view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
+        startActivity(new Intent(this, NoteSecondActivity.class));
     }
 
 
