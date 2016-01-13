@@ -10,7 +10,7 @@ public class DataBaseManager {
     public static final String COLUMN_NAME_ID = "_id";
     public static final String COLUMN_NAME_NAME = "name";
     public static final String COLUMN_NAME_CONTENT = "content";
-    public static final String CREATE_TABLE = "create table "+TABLE_NAME+ " ("
+    public static final String CREATE_TABLE_IF_NOT_EXISTS = "create table if not exists "+TABLE_NAME+ " ("
             +COLUMN_NAME_ID+" integer primary key autoincrement,"
             +COLUMN_NAME_NAME+" text not null,"
             +COLUMN_NAME_CONTENT+" text);";

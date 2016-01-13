@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -16,12 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.quicklist.R;
-import com.example.david.quicklist.application.android.AnnotationSetReader;
 import com.example.david.quicklist.application.android.DataBaseManager;
-import com.example.david.quicklist.application.android.TaskListLayout;
 import com.example.david.quicklist.controler.Command;
 import com.example.david.quicklist.controler.PressButtonCommand;
-import com.example.david.quicklist.model.TaskList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +30,6 @@ public class ApplicationMainActivity extends AppCompatActivity {
     private ApplicationMainActivity mainActivityReference;
     private Map<String, Command> commands;
     private Map<String,TextView> components;
-    private List<String> annotationList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +37,6 @@ public class ApplicationMainActivity extends AppCompatActivity {
         mainActivityReference = this;
         commands = new HashMap<>();
         components = new HashMap<>();
-        annotationList = new AnnotationSetReader().read();
         initDB();
         deployUi();
         deployToolBar();
@@ -75,27 +69,7 @@ public class ApplicationMainActivity extends AppCompatActivity {
     }
 
     private void deployUi() {
-        RelativeLayout relativeLayout = new RelativeLayout(this);
-        relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        relativeLayout.setId(R.id.relativeLayout);
-        relativeLayout.setBackgroundColor(getResources().getColor(R.color.colorBackGround));
-        relativeLayout.addView(deployToolBar());
-        LinearLayout linearLayout = new LinearLayout(this);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        params.addRule(RelativeLayout.BELOW, R.id.toolbar);
-        linearLayout.setLayoutParams(params);
-        linearLayout.setId(R.id.linearLayout);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(5, 16, 5, 16);
-        //////////////////////////////////////
-        ListView listView = new ListView(this);
-        listView.setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        String[] from = new String[]{manager.COLUMN_NAME_NAME,manager.COLUMN_NAME_CONTENT};
-        int[] to = new int[]{android.R.id.text1,android.R.id.text2};
-        adapter = new SimpleCursorAdapter(this,android.R.layout.two_line_list_item,cursor,from,to,0);
-        listView.setAdapter(adapter);
-        linearLayout.addView(listView);
-        //////////////////////////////////////
+        setContentView(relativeLayout());
         //ScrollView scrollView = new ScrollView(this);
         //scrollView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         //RadioGroup radioGroup = new RadioGroup(this);
@@ -104,29 +78,53 @@ public class ApplicationMainActivity extends AppCompatActivity {
         //linearLayout.addView(scrollView);
         //radioGroup.addView(oneButton(), new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
         //for(String annotation : annotationList )radioGroup.addView(annotation(annotation),new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-
-        relativeLayout.addView(linearLayout);
-        setContentView(relativeLayout);
     }
 
-    private View annotation(String name) {
-        //list != note
-        TaskListLayout taskListLayout = new TaskListLayout(this, new TaskList(name));
-        return taskListLayout;
+    private RelativeLayout relativeLayout() {
+        RelativeLayout relativeLayout = new RelativeLayout(this);
+        relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        relativeLayout.setId(R.id.relativeLayout);
+        relativeLayout.setBackgroundColor(getResources().getColor(R.color.colorBackGround));
+        relativeLayout.addView(deployToolBar());
+        relativeLayout.addView(linearLayout());
+        return relativeLayout;
     }
 
-    private Button oneButton() {
-        Button button = new Button(this);
-        components.put("oneButton", button);
-        button.setText(R.string.button_text);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commands.get("pressButton").execute();
-            }
-        });
-        return button;
+    private LinearLayout linearLayout() {
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setLayoutParams(LayoutParamsWithBellowToolBarRule());
+        linearLayout.setId(R.id.linearLayout);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(5, 5, 5, 5);
+        linearLayout.addView(listView());
+        return linearLayout;
     }
+
+    private RelativeLayout.LayoutParams LayoutParamsWithBellowToolBarRule() {
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.BELOW, R.id.toolbar);
+        return params;
+    }
+
+    private ListView listView() {
+        ListView listView = new ListView(this);
+        listView.setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        listView.setDividerHeight(5);
+        listView.setAdapter(adapter());
+        return listView;
+    }
+
+    private SimpleCursorAdapter adapter() {
+        String[] from = new String[]{manager.COLUMN_NAME_NAME,manager.COLUMN_NAME_CONTENT};
+        int[] to = new int[]{R.id.text1,R.id.text2};
+        adapter = new SimpleCursorAdapter(this,R.layout.vertical_list_item,cursor,from,to,0);
+        return adapter;
+    }
+
+    public void changeVerticalListItemBackgroundColor(View view) {
+        view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
+    }
+
 
     public int getColorFromResource(int colorReference){
         return getResources().getColor(colorReference);

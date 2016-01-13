@@ -14,7 +14,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DataBaseManager.CREATE_TABLE);
+        db.execSQL(DataBaseManager.CREATE_TABLE_IF_NOT_EXISTS);
     }
 
     @Override
