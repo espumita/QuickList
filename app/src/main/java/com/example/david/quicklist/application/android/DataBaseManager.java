@@ -23,7 +23,7 @@ public class DataBaseManager {
             +COLUMN_NAME_USER_ID+" integer not null,"
             +COLUMN_NAME_ITEM_CONTENT+" text not null,"
             +COLUMN_NAME_ITEM_STATUS+" text not null,"
-        +"foreign key("+COLUMN_NAME_USER_ID+") references  "+TABLE_NAME_ANNOTATIONS+"("+COLUMN_NAME_ID+")"
+        +"foreign key("+COLUMN_NAME_USER_ID+") references "+TABLE_NAME_ANNOTATIONS+"("+COLUMN_NAME_ID+") on delete cascade"
     +");";
 
     public DataBaseManager(Context context) {
@@ -67,5 +67,9 @@ public class DataBaseManager {
     public Cursor loadContentCursor(Integer userID){
         String[] columns = new String[]{COLUMN_NAME_ID,COLUMN_NAME_USER_ID,COLUMN_NAME_ITEM_CONTENT,COLUMN_NAME_ITEM_STATUS};
         return db.query(TABLE_NAME_CONTENT,columns,COLUMN_NAME_USER_ID+"=?",new String[]{Integer.toString(userID)},null,null,null);
+    }
+
+    public void contentTableDelete(Integer userID) {
+        db.delete(TABLE_NAME_CONTENT, COLUMN_NAME_USER_ID + "=?", new String[]{Integer.toString(userID)});
     }
 }

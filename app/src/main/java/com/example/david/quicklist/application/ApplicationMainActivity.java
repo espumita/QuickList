@@ -46,19 +46,25 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void initDB() {
         manager = new DataBaseManager(this);
+        test();
+        annotationsCursor = manager.loadAnnotationsCursor();
+        //ahora de cada anotación tendríamos que leer de la tabla conntent sus contenidos
+        contentCursor = manager.loadContentCursor(3);
+    }
+
+    private void test() {
         //manager.annotationsTableInsert("1name");
         //manager.annotationsTableInsert("2name");
         //manager.annotationsTableInsert("3name");
         //manager.annotationsTableInsert("4name");
         //manager.annotationsTableInsert("5name");
-        annotationsCursor = manager.loadAnnotationsCursor();
-        //ahora de cada anotación tendríamos que leer de la tabla conntent sus contenidos
-        //manager.contentTableInsert(3,"step_1","true");
-        //manager.contentTableInsert(3,"step_2","false");
-        //manager.contentTableInsert(3,"step_3","true");
-        //manager.contentTableInsert(3,"step_4","false");
-        contentCursor = manager.loadContentCursor(3);
 
+       //manager.contentTableInsert(3, "step_1", "true");
+       //manager.contentTableInsert(3, "step_2", "false");
+       //manager.contentTableInsert(3, "step_3", "true");
+       //manager.contentTableInsert(3, "step_4", "false");
+       // //manager.contentTableDelete(3);
+        //manager.annotationsTableDelete("3name");
     }
 
     private View deployToolBar() {
