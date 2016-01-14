@@ -7,7 +7,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -46,18 +48,18 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void initDB() {
         manager = new DataBaseManager(this);
-        test();
+        //test();
         annotationsCursor = manager.loadAnnotationsCursor();
         //ahora de cada anotación tendríamos que leer de la tabla conntent sus contenidos
         contentCursor = manager.loadContentCursor(3);
     }
 
     private void test() {
-        //manager.annotationsTableInsert("1name");
-        //manager.annotationsTableInsert("2name");
-        //manager.annotationsTableInsert("3name");
-        //manager.annotationsTableInsert("4name");
-        //manager.annotationsTableInsert("5name");
+        manager.annotationsTableInsert("1name");
+        manager.annotationsTableInsert("2name");
+        manager.annotationsTableInsert("3name");
+        manager.annotationsTableInsert("4name");
+        manager.annotationsTableInsert("5name");
 
        //manager.contentTableInsert(3, "step_1", "true");
        //manager.contentTableInsert(3, "step_2", "false");
@@ -75,7 +77,31 @@ public class ApplicationMainActivity extends AppCompatActivity {
         toolbar.setPopupTheme(R.style.toolBarStyle);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorLightLetters));
         toolbar.setTitle(R.string.toolBarTittle);
+        toolbar.addView(settingsButton());
+        toolbar.addView(addNewAnnotationButton());
         return toolbar;
+    }
+
+    private ImageButton settingsButton() {
+        ImageButton imageButton = new ImageButton(this);
+        Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.RIGHT;
+        imageButton.setPadding(5,5,5,5);
+        imageButton.setLayoutParams(params);
+        imageButton.setBackgroundColor(getResources().getColor(R.color.colorBar));
+        imageButton.setImageResource(R.drawable.menu);
+        return imageButton;
+    }
+
+    private ImageButton addNewAnnotationButton() {
+        ImageButton imageButton = new ImageButton(this);
+        Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.RIGHT;
+        imageButton.setPadding(5,5,5,5);
+        imageButton.setLayoutParams(params);
+        imageButton.setBackgroundColor(getResources().getColor(R.color.colorBar));
+        imageButton.setImageResource(android.R.drawable.ic_input_add);
+        return imageButton;
     }
 
     private void createCommands() {
