@@ -25,7 +25,8 @@ import java.util.Map;
 
 public class ApplicationMainActivity extends AppCompatActivity {
     private DataBaseManager manager;
-    private Cursor cursor;
+    private Cursor annotationsCursor;
+    private Cursor contentCursor;
     private SimpleCursorAdapter adapter;
     private ApplicationMainActivity mainActivityReference;
     private Map<String, Command> commands;
@@ -45,12 +46,19 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void initDB() {
         manager = new DataBaseManager(this);
-        //manager.insert("1name","1content");
-        //manager.insert("2name","2content");
-        //manager.insert("3name","3content");
-        //manager.insert("4name","4content");
-        //manager.insert("5name","5content");
-        cursor = manager.loadAnnotationsCursor();
+        //manager.annotationsTableInsert("1name");
+        //manager.annotationsTableInsert("2name");
+        //manager.annotationsTableInsert("3name");
+        //manager.annotationsTableInsert("4name");
+        //manager.annotationsTableInsert("5name");
+        annotationsCursor = manager.loadAnnotationsCursor();
+        //ahora de cada anotación tendríamos que leer de la tabla conntent sus contenidos
+        //manager.contentTableInsert(3,"step_1","true");
+        //manager.contentTableInsert(3,"step_2","false");
+        //manager.contentTableInsert(3,"step_3","true");
+        //manager.contentTableInsert(3,"step_4","false");
+        contentCursor = manager.loadContentCursor(3);
+
     }
 
     private View deployToolBar() {
@@ -107,9 +115,9 @@ public class ApplicationMainActivity extends AppCompatActivity {
     }
 
     private SimpleCursorAdapter adapter() {
-        String[] from = new String[]{manager.COLUMN_NAME_NAME,manager.COLUMN_NAME_CONTENT};
-        int[] to = new int[]{R.id.text1,R.id.text2};
-        adapter = new SimpleCursorAdapter(this,R.layout.vertical_list_item,cursor,from,to,0);
+        String[] from = new String[]{manager.COLUMN_NAME_NAME};
+        int[] to = new int[]{R.id.text1};
+        adapter = new SimpleCursorAdapter(this,R.layout.vertical_list_item, annotationsCursor,from,to,0);
         return adapter;
     }
 
@@ -132,13 +140,13 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            //cursor = manager.query
+            //annotationsCursor = manager.query
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            //adapter.changecursor(cursor)
+            //adapter.changecursor(annotationsCursor)
             Toast.makeText(getApplicationContext(),"Searched!", Toast.LENGTH_SHORT).show();
         }
     }
