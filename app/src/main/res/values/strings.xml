@@ -2,4 +2,6 @@
     <string name="app_name">QuickList</string>
     <string name="button_text">Press me</string>
     <string name="toolBarTittle">Notes</string>
+    <string name="list">List</string>
+    <string name="addNewItem">Add new item</string>
 </resources>

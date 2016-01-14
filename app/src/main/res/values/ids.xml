@@ -2,6 +2,7 @@
 
 <resources>
     <item name="toolbar" type="id"/>
+    <item name="toolbar2" type="id"/>
     <item name="relativeLayout" type="id"/>
     <item name="linearLayout" type="id"/>
 </resources>

@@ -8,12 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +53,7 @@ public class ApplicationMainActivity extends AppCompatActivity {
         //test();
         annotationsCursor = manager.loadAnnotationsCursor();
         //ahora de cada anotación tendríamos que leer de la tabla conntent sus contenidos
-        contentCursor = manager.loadContentCursor(3);
+        contentCursor = manager.loadContentCursorWhereUserIdIs(3);
     }
 
     private void test() {
@@ -86,7 +88,7 @@ public class ApplicationMainActivity extends AppCompatActivity {
         ImageButton imageButton = new ImageButton(this);
         Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.RIGHT;
-        imageButton.setPadding(5,5,5,5);
+        imageButton.setPadding(5, 5, 5, 5);
         imageButton.setLayoutParams(params);
         imageButton.setBackgroundColor(getResources().getColor(R.color.colorBar));
         imageButton.setImageResource(R.drawable.menu);
@@ -97,10 +99,24 @@ public class ApplicationMainActivity extends AppCompatActivity {
         ImageButton imageButton = new ImageButton(this);
         Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.RIGHT;
-        imageButton.setPadding(5,5,5,5);
+        imageButton.setPadding(5, 5, 5, 5);
         imageButton.setLayoutParams(params);
         imageButton.setBackgroundColor(getResources().getColor(R.color.colorBar));
         imageButton.setImageResource(android.R.drawable.ic_input_add);
+        imageButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setBackgroundColor(getResources().getColor(R.color.colorOnPressedButton));
+                    startActivity(new Intent(ApplicationMainActivity.this, NoteSecondActivity.class));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    v.setBackgroundColor(getResources().getColor(R.color.colorBar));
+                }
+                return true;
+            }
+        });
+
         return imageButton;
     }
 
@@ -155,7 +171,6 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     public void changeVerticalListItemBackgroundColor(View view) {
         view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
-        startActivity(new Intent(this, NoteSecondActivity.class));
     }
 
 

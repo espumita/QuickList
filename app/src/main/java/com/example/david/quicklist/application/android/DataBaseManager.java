@@ -64,7 +64,7 @@ public class DataBaseManager {
         return values;
     }
 
-    public Cursor loadContentCursor(Integer userID){
+    public Cursor loadContentCursorWhereUserIdIs(Integer userID){
         String[] columns = new String[]{COLUMN_NAME_ID,COLUMN_NAME_USER_ID,COLUMN_NAME_ITEM_CONTENT,COLUMN_NAME_ITEM_STATUS};
         return db.query(TABLE_NAME_CONTENT,columns,COLUMN_NAME_USER_ID+"=?",new String[]{Integer.toString(userID)},null,null,null);
     }

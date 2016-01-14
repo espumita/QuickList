@@ -9,4 +9,5 @@
     <color name="colorBar">#E91E63</color>
     <color name="colorLightLetters">#ffffff</color>
     <color name="colorDarkLetters">#000000</color>
+    <color name="colorOnPressedButton">#0995c3</color>
 </resources>
