@@ -3,5 +3,5 @@
     <string name="button_text">Press me</string>
     <string name="toolBarTittle">Notes</string>
     <string name="list">List</string>
-    <string name="addNewItem">Add new item</string>
+    <string name="savingData">Saving...</string>
 </resources>

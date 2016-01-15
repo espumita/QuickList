@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +29,6 @@ import java.util.Map;
 public class ApplicationMainActivity extends AppCompatActivity {
     private DataBaseManager manager;
     private Cursor annotationsCursor;
-    private Cursor contentCursor;
     private SimpleCursorAdapter adapter;
     private ApplicationMainActivity mainActivityReference;
     private Map<String, Command> commands;
@@ -50,10 +48,8 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void initDB() {
         manager = new DataBaseManager(this);
-        //test();
+        test();
         annotationsCursor = manager.loadAnnotationsCursor();
-        //ahora de cada anotación tendríamos que leer de la tabla conntent sus contenidos
-        contentCursor = manager.loadContentCursorWhereUserIdIs(3);
     }
 
     private void test() {
@@ -63,12 +59,12 @@ public class ApplicationMainActivity extends AppCompatActivity {
         manager.annotationsTableInsert("4name");
         manager.annotationsTableInsert("5name");
 
-       //manager.contentTableInsert(3, "step_1", "true");
-       //manager.contentTableInsert(3, "step_2", "false");
-       //manager.contentTableInsert(3, "step_3", "true");
-       //manager.contentTableInsert(3, "step_4", "false");
-       // //manager.contentTableDelete(3);
-        //manager.annotationsTableDelete("3name");
+       manager.contentTableInsert(3, "step_1", "true");
+       manager.contentTableInsert(3, "step_2", "false");
+       manager.contentTableInsert(3, "step_3", "true");
+       manager.contentTableInsert(3, "step_4", "false");
+          //manager.contentTableDelete(3);
+          //manager.annotationsTableDelete("3name");
     }
 
     private View deployToolBar() {
@@ -108,9 +104,9 @@ public class ApplicationMainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     v.setBackgroundColor(getResources().getColor(R.color.colorOnPressedButton));
-                    startActivity(new Intent(ApplicationMainActivity.this, NoteSecondActivity.class));
+                    secondActivity(-1);
                 }
-                if(event.getAction() == MotionEvent.ACTION_UP){
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     v.setBackgroundColor(getResources().getColor(R.color.colorBar));
                 }
                 return true;
@@ -118,6 +114,21 @@ public class ApplicationMainActivity extends AppCompatActivity {
         });
 
         return imageButton;
+    }
+
+    private void secondActivity(int id) {
+        Intent intent = new Intent(ApplicationMainActivity.this, NoteSecondActivity.class);
+        intent.putExtra("id",id);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String response="";
+        if(requestCode == 1 && resultCode == this.RESULT_OK) response = data.getExtras().getString("response");
+        if(response.equals("closed")){
+            Toast.makeText(getApplicationContext(),"Should Refresh", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void createCommands() {
@@ -165,12 +176,13 @@ public class ApplicationMainActivity extends AppCompatActivity {
     private SimpleCursorAdapter adapter() {
         String[] from = new String[]{manager.COLUMN_NAME_NAME};
         int[] to = new int[]{R.id.text1};
-        adapter = new SimpleCursorAdapter(this,R.layout.vertical_list_item, annotationsCursor,from,to,0);
+        adapter = new SimpleCursorAdapter(this,R.layout.annotation, annotationsCursor,from,to,0);
         return adapter;
     }
 
     public void changeVerticalListItemBackgroundColor(View view) {
         view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
+        secondActivity(3);
     }
 
 
