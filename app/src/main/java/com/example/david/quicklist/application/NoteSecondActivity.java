@@ -45,7 +45,7 @@ public class NoteSecondActivity extends AppCompatActivity {
         return this.getIntent().getExtras().getInt("id");
     }
 
-    public void closeAction(){ ///SaveButton?
+    public void closeAction(){ ///send info to main activity and close
         Intent intent = new Intent();
         intent.putExtra("response","closed");
         this.setResult(RESULT_OK, intent);

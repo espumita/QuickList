@@ -124,10 +124,11 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String response="";
-        if(requestCode == 1 && resultCode == this.RESULT_OK) response = data.getExtras().getString("response");
-        if(response.equals("closed")){
+        if(requestCode == 1) {
             Toast.makeText(getApplicationContext(),"Should Refresh", Toast.LENGTH_SHORT).show();
+            if(resultCode == this.RESULT_OK){
+                //manage data from second activity
+            }
         }
     }
 
