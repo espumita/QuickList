@@ -54,15 +54,19 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void test() {
         manager.annotationsTableInsert("1name");
-        manager.annotationsTableInsert("2name");
+        manager.annotationsTableInsert("3name");
         manager.annotationsTableInsert("3name");
         manager.annotationsTableInsert("4name");
         manager.annotationsTableInsert("5name");
 
-       manager.contentTableInsert(3, "step_1", "true");
-       manager.contentTableInsert(3, "step_2", "false");
+       manager.contentTableInsert(2, "step_2", "true");
+       manager.contentTableInsert(2, "step_2", "true");
+       manager.contentTableInsert(2, "step_2", "true");
        manager.contentTableInsert(3, "step_3", "true");
-       manager.contentTableInsert(3, "step_4", "false");
+       manager.contentTableInsert(3, "step_3", "true");
+       manager.contentTableInsert(3, "step_3", "true");
+
+
           //manager.contentTableDelete(3);
           //manager.annotationsTableDelete("3name");
     }
@@ -175,15 +179,15 @@ public class ApplicationMainActivity extends AppCompatActivity {
     }
 
     private SimpleCursorAdapter adapter() {
-        String[] from = new String[]{manager.COLUMN_NAME_NAME};
-        int[] to = new int[]{R.id.text1};
+        String[] from = new String[]{manager.COLUMN_NAME_ID,manager.COLUMN_NAME_NAME};
+        int[] to = new int[]{R.id.invisibleId,R.id.text1};
         adapter = new SimpleCursorAdapter(this,R.layout.annotation, annotationsCursor,from,to,0);
         return adapter;
     }
 
     public void changeVerticalListItemBackgroundColor(View view) {
         view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
-        secondActivity(3);
+        secondActivity(Integer.parseInt(((TextView) view.findViewById(R.id.invisibleId)).getText().toString()));
     }
 
 
