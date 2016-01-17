@@ -9,19 +9,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.AdapterView.OnItemClickListener;
 import com.example.david.quicklist.R;
 import com.example.david.quicklist.application.android.DataBaseManager;
 
-public class NoteSecondActivity extends AppCompatActivity {
+public class NoteSecondActivity extends AppCompatActivity{
     private DataBaseManager manager;
     private Cursor listContentCursor;
+    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onDestroy() {
@@ -56,6 +59,8 @@ public class NoteSecondActivity extends AppCompatActivity {
         setContentView(relativeLayout());
     }
 
+
+
     private RelativeLayout relativeLayout() {
         RelativeLayout relativeLayout = new RelativeLayout(this);
         relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
@@ -80,19 +85,31 @@ public class NoteSecondActivity extends AppCompatActivity {
         listView.setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         listView.setDividerHeight(5);
         if(id() != -1) listView.setAdapter(adapter());
+        listView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if((Integer.parseInt(((TextView) view.findViewById(R.id.invisibleId2)).getText().toString())) == 1)
+                    //Update to 0
+                    view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
+                else
+                    //Update to 1
+                    view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationOne));
+            }
+        });
         return listView;
     }
 
+    //this must be custom adapter
     private SimpleCursorAdapter adapter() {
-        String[] from = new String[]{manager.COLUMN_NAME_ITEM_CONTENT};
-        int[] to = new int[]{R.id.text3};
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,R.layout.list_item, listContentCursor,from,to,0);
+        String[] from = new String[]{manager.COLUMN_NAME_ITEM_CONTENT,manager.COLUMN_NAME_ITEM_STATUS};
+        int[] to = new int[]{R.id.text3,R.id.invisibleId2};
+        adapter = new SimpleCursorAdapter(this,R.layout.list_item, listContentCursor,from,to,0);
         return adapter;
     }
 
     private RelativeLayout.LayoutParams LayoutParamsWithUpToolBarRule() {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        params.addRule(RelativeLayout.BELOW,R.id.toolbar2);
+        params.addRule(RelativeLayout.BELOW, R.id.toolbar2);
         return params;
     }
     private Toolbar deployToolBar() {

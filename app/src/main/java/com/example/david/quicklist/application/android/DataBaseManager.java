@@ -22,7 +22,7 @@ public class DataBaseManager {
             +COLUMN_NAME_ID+" integer primary key autoincrement,"
             +COLUMN_NAME_USER_ID+" integer not null,"
             +COLUMN_NAME_ITEM_CONTENT+" text not null,"
-            +COLUMN_NAME_ITEM_STATUS+" text not null,"
+            +COLUMN_NAME_ITEM_STATUS+" integer not null,"
         +"foreign key("+COLUMN_NAME_USER_ID+") references "+TABLE_NAME_ANNOTATIONS+"("+COLUMN_NAME_ID+") on delete cascade"
     +");";
 
@@ -53,10 +53,10 @@ public class DataBaseManager {
         return db.query(TABLE_NAME_ANNOTATIONS,columns,null,null,null,null,null);
     }
 
-    public void contentTableInsert(Integer userID,String itemContent,String itemStatus){
+    public void contentTableInsert(Integer userID,String itemContent,Integer itemStatus){
         db.insert(TABLE_NAME_CONTENT, null, contentContentValues(userID,itemContent,itemStatus));
     }
-    private ContentValues contentContentValues(Integer userID,String itemContent,String itemStatus){
+    private ContentValues contentContentValues(Integer userID,String itemContent,Integer itemStatus){
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME_USER_ID, userID);
         values.put(COLUMN_NAME_ITEM_CONTENT, itemContent);

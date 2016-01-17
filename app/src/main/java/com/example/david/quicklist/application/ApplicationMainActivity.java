@@ -59,12 +59,12 @@ public class ApplicationMainActivity extends AppCompatActivity {
         manager.annotationsTableInsert("4name");
         manager.annotationsTableInsert("5name");
 
-       manager.contentTableInsert(2, "step_2", "true");
-       manager.contentTableInsert(2, "step_2", "true");
-       manager.contentTableInsert(2, "step_2", "true");
-       manager.contentTableInsert(3, "step_3", "true");
-       manager.contentTableInsert(3, "step_3", "true");
-       manager.contentTableInsert(3, "step_3", "true");
+       manager.contentTableInsert(2, "step_2", 0);
+       manager.contentTableInsert(2, "step_2", 0);
+       manager.contentTableInsert(2, "step_2", 0);
+       manager.contentTableInsert(3, "step_3", 1);
+       manager.contentTableInsert(3, "step_3", 1);
+       manager.contentTableInsert(3, "step_3", 1);
 
 
           //manager.contentTableDelete(3);
