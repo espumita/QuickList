@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -24,7 +25,7 @@ public class NoteSecondActivity extends AppCompatActivity{
     private DataBaseManager manager;
     private Cursor listContentCursor;
     private CustomAdapter adapter;
-    private ListView listView;
+    private boolean changed;
 
     @Override
     protected void onDestroy() {
@@ -37,6 +38,7 @@ public class NoteSecondActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        changed=false;
         initDB();
         deployUI();
     }
@@ -82,7 +84,7 @@ public class NoteSecondActivity extends AppCompatActivity{
     }
 
     private ListView listView() {
-        final ListView listView = new ListView(this);
+        ListView listView = new ListView(this);
         listView.setId(R.id.list1);
         listView.refreshDrawableState();
         listView.setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -95,15 +97,35 @@ public class NoteSecondActivity extends AppCompatActivity{
                     manager.contentsTableUpdateContent((Integer.parseInt(((TextView) view.findViewById(R.id.invisibleRealId)).getText().toString())), "1");
                     ((TextView) view.findViewById(R.id.invisibleId2)).setText("1");
                     view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
+                    changed=true;
                 } else {
                     manager.contentsTableUpdateContent((Integer.parseInt(((TextView) view.findViewById(R.id.invisibleRealId)).getText().toString())), "0");
                     ((TextView) view.findViewById(R.id.invisibleId2)).setText("0");
                     view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationOne));
+                    changed=true;
                 }
             }
         });
-        this.listView = listView;
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(changed){
+                    refreshCursonAndAdaptor(view);
+                    changed = false;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
         return listView;
+    }
+
+    private void refreshCursonAndAdaptor(AbsListView view) {
+        if(id() != -1) listContentCursor = manager.loadContentCursorWhereUserIdIs(id());
+        view.setAdapter(adapter());
     }
 
     private CustomAdapter adapter() {
