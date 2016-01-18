@@ -14,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -24,13 +23,16 @@ import com.example.david.quicklist.application.android.DataBaseManager;
 public class NoteSecondActivity extends AppCompatActivity{
     private DataBaseManager manager;
     private Cursor listContentCursor;
-    private SimpleCursorAdapter adapter;
+    private CustomAdapter adapter;
+    private ListView listView;
 
     @Override
     protected void onDestroy() {
         Toast.makeText(getApplicationContext(),R.string.savingData, Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,30 +82,34 @@ public class NoteSecondActivity extends AppCompatActivity{
     }
 
     private ListView listView() {
-        ListView listView = new ListView(this);
+        final ListView listView = new ListView(this);
         listView.setId(R.id.list1);
+        listView.refreshDrawableState();
         listView.setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         listView.setDividerHeight(5);
         if(id() != -1) listView.setAdapter(adapter());
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if((Integer.parseInt(((TextView) view.findViewById(R.id.invisibleId2)).getText().toString())) == 1)
-                    //Update to 0
+                if (((TextView) view.findViewById(R.id.invisibleId2)).getText().toString().equals("0")){
+                    manager.contentsTableUpdateContent((Integer.parseInt(((TextView) view.findViewById(R.id.invisibleRealId)).getText().toString())), "1");
+                    ((TextView) view.findViewById(R.id.invisibleId2)).setText("1");
                     view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
-                else
-                    //Update to 1
+                } else {
+                    manager.contentsTableUpdateContent((Integer.parseInt(((TextView) view.findViewById(R.id.invisibleRealId)).getText().toString())), "0");
+                    ((TextView) view.findViewById(R.id.invisibleId2)).setText("0");
                     view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationOne));
+                }
             }
         });
+        this.listView = listView;
         return listView;
     }
 
-    //this must be custom adapter
-    private SimpleCursorAdapter adapter() {
-        String[] from = new String[]{manager.COLUMN_NAME_ITEM_CONTENT,manager.COLUMN_NAME_ITEM_STATUS};
-        int[] to = new int[]{R.id.text3,R.id.invisibleId2};
-        adapter = new SimpleCursorAdapter(this,R.layout.list_item, listContentCursor,from,to,0);
+    private CustomAdapter adapter() {
+        String[] from = new String[]{manager.COLUMN_NAME_ITEM_CONTENT,manager.COLUMN_NAME_ITEM_STATUS,manager.COLUMN_NAME_ID};
+        int[] to = new int[]{R.id.text3,R.id.invisibleId2,R.id.invisibleRealId};
+        adapter = new CustomAdapter(this,R.layout.list_item, listContentCursor,from,to,0,getResources().getColor(R.color.colorAnnotationTwo),getResources().getColor(R.color.colorAnnotationOne));
         return adapter;
     }
 

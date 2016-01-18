@@ -48,27 +48,25 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void initDB() {
         manager = new DataBaseManager(this);
-        test();
+        //test();
         annotationsCursor = manager.loadAnnotationsCursor();
     }
 
     private void test() {
         manager.annotationsTableInsert("1name");
-        manager.annotationsTableInsert("3name");
-        manager.annotationsTableInsert("3name");
-        manager.annotationsTableInsert("4name");
-        manager.annotationsTableInsert("5name");
-
-       manager.contentTableInsert(2, "step_2", 0);
-       manager.contentTableInsert(2, "step_2", 0);
-       manager.contentTableInsert(2, "step_2", 0);
-       manager.contentTableInsert(3, "step_3", 1);
-       manager.contentTableInsert(3, "step_3", 1);
-       manager.contentTableInsert(3, "step_3", 1);
-
-
-          //manager.contentTableDelete(3);
-          //manager.annotationsTableDelete("3name");
+        manager.annotationsTableInsert("2name");
+        manager.contentTableInsert(2, "step_2_0", "0");
+        manager.contentTableInsert(2, "step_2_1", "1");
+        manager.contentTableInsert(2, "step_2_2", "1");
+        manager.contentTableInsert(2, "step_2_3", "1");
+        manager.contentTableInsert(2, "step_2_4", "1");
+        manager.contentTableInsert(2, "step_2_6", "0");
+        manager.contentTableInsert(2, "step_2_7", "1");
+        manager.contentTableInsert(2, "step_2_8", "1");
+        manager.contentTableInsert(2, "step_2_9", "1");
+        manager.contentTableInsert(2, "step_2_10", "1");
+        manager.contentTableInsert(2, "step_2_11", "0");
+        manager.contentTableInsert(2, "step_2_12", "0");
     }
 
     private View deployToolBar() {
