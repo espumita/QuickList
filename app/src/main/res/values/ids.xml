@@ -7,4 +7,5 @@
     <item name="linearLayout" type="id"/>
     <item name="list1" type="id"/>
     <item name="lisLinearLayout" type="id"/>
+    <item name="addListItemDialogEditText" type="id"/>
 </resources>

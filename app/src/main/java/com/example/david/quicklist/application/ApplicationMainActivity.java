@@ -1,6 +1,8 @@
 package com.example.david.quicklist.application;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +36,12 @@ public class ApplicationMainActivity extends AppCompatActivity {
     private ApplicationMainActivity mainActivityReference;
     private Map<String, Command> commands;
     private Map<String,TextView> components;
+
+    @Override
+    protected void onDestroy() {
+        Toast.makeText(getApplicationContext(),"Saving in main...", Toast.LENGTH_SHORT).show();
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +115,10 @@ public class ApplicationMainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     v.setBackgroundColor(getResources().getColor(R.color.colorOnPressedButton));
-                    secondActivity(-1);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     v.setBackgroundColor(getResources().getColor(R.color.colorBar));
+                    addNewList();
                 }
                 return true;
             }
@@ -120,7 +129,7 @@ public class ApplicationMainActivity extends AppCompatActivity {
 
     private void secondActivity(int id) {
         Intent intent = new Intent(ApplicationMainActivity.this, NoteSecondActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
         startActivityForResult(intent, 1);
     }
 
@@ -129,7 +138,7 @@ public class ApplicationMainActivity extends AppCompatActivity {
         if(requestCode == 1) {
             Toast.makeText(getApplicationContext(),"Should Refresh", Toast.LENGTH_SHORT).show();
             if(resultCode == this.RESULT_OK){
-                //manage data from second activity
+                //SHOUlD REFRESH main content
             }
         }
     }
@@ -192,7 +201,33 @@ public class ApplicationMainActivity extends AppCompatActivity {
     public int getColorFromResource(int colorReference){
         return getResources().getColor(colorReference);
     }
+    private void addNewList() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ApplicationMainActivity.this);
+        builder.setTitle("List Name");
+        EditText input = new EditText(ApplicationMainActivity.this);
+        input.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+        input.setSingleLine();
+        input.setText("");
+        input.setId(R.id.addListItemDialogEditText);
+        builder.setView(input);
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String text = (((EditText) ((AlertDialog) dialog).findViewById(R.id.addListItemDialogEditText)).getText().toString()).trim();
+                if (text != null && !text.equals("")) {
+                    manager.annotationsTableInsert(text);
+                    secondActivity(manager.annotationTableGetIdFrom(text));
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
+        builder.show();
+    }
     private class BackgroundTask extends AsyncTask<Void,Void,Void> {
         //se la llamaria con new BackgroundTask().execute();
         @Override

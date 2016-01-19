@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"/>
 
     <TextView android:id="@+id/invisibleId"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="invisible"/>
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:visibility="visible"/>
 
 </LinearLayout>

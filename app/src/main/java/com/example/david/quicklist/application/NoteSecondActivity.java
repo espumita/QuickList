@@ -1,6 +1,8 @@
 package com.example.david.quicklist.application;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,7 +35,6 @@ public class NoteSecondActivity extends AppCompatActivity{
         Toast.makeText(getApplicationContext(),R.string.savingData, Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
-
 
 
     @Override
@@ -93,24 +95,24 @@ public class NoteSecondActivity extends AppCompatActivity{
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (((TextView) view.findViewById(R.id.invisibleId2)).getText().toString().equals("0")){
+                if (((TextView) view.findViewById(R.id.invisibleId2)).getText().toString().equals("0")) {
                     manager.contentsTableUpdateContent((Integer.parseInt(((TextView) view.findViewById(R.id.invisibleRealId)).getText().toString())), "1");
                     ((TextView) view.findViewById(R.id.invisibleId2)).setText("1");
                     view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationTwo));
-                    changed=true;
+                    changed = true;
                 } else {
                     manager.contentsTableUpdateContent((Integer.parseInt(((TextView) view.findViewById(R.id.invisibleRealId)).getText().toString())), "0");
                     ((TextView) view.findViewById(R.id.invisibleId2)).setText("0");
                     view.setBackgroundColor(getResources().getColor(R.color.colorAnnotationOne));
-                    changed=true;
+                    changed = true;
                 }
             }
         });
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if(changed){
-                    refreshCursonAndAdaptor(view);
+                if (changed) {
+                    refreshCursorAndAdaptor(view);
                     changed = false;
                 }
             }
@@ -123,7 +125,7 @@ public class NoteSecondActivity extends AppCompatActivity{
         return listView;
     }
 
-    private void refreshCursonAndAdaptor(AbsListView view) {
+    private void refreshCursorAndAdaptor(AbsListView view) {
         if(id() != -1) listContentCursor = manager.loadContentCursorWhereUserIdIs(id());
         view.setAdapter(adapter());
     }
@@ -165,15 +167,52 @@ public class NoteSecondActivity extends AppCompatActivity{
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     v.setBackgroundColor(getResources().getColor(R.color.colorOnPressedButton));
-                    //CREATE NEW LIST DISPLAY THE FORM¿?
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     v.setBackgroundColor(getResources().getColor(R.color.colorBar));
+                    addNewItemToListDialog();
                 }
                 return true;
             }
         });
 
         return imageButton;
+    }
+
+    private void addNewItemToListDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(NoteSecondActivity.this);
+        builder.setTitle("Add element to the list");
+        EditText input = new EditText(NoteSecondActivity.this);
+        input.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+        input.setSingleLine();
+        input.setText("");
+        input.setId(R.id.addListItemDialogEditText);
+        builder.setView(input);
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String text = (((EditText) ((AlertDialog) dialog).findViewById(R.id.addListItemDialogEditText)).getText().toString()).trim();
+                if (text != null && !text.equals("")) {
+                    manager.contentTableInsert(id(), text, "0");
+                }
+            }
+        });
+        builder.setNeutralButton("Other", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String text = (((EditText) ((AlertDialog) dialog).findViewById(R.id.addListItemDialogEditText)).getText().toString()).trim();
+                if (text != null && !text.equals("")) {
+                    manager.contentTableInsert(id(), text, "0");
+                    addNewItemToListDialog();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
     }
 }

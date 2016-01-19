@@ -54,7 +54,7 @@ public class DataBaseManager {
     }
 
     public void contentTableInsert(Integer userID,String itemContent,String itemStatus){
-        db.insert(TABLE_NAME_CONTENT, null, contentContentValues(userID,itemContent,itemStatus));
+        db.insert(TABLE_NAME_CONTENT, null, contentContentValues(userID, itemContent, itemStatus));
     }
     private ContentValues contentContentValues(Integer userID,String itemContent,String itemStatus){
         ContentValues values = new ContentValues();
@@ -83,4 +83,10 @@ public class DataBaseManager {
         return values;
     }
 
+    public int annotationTableGetIdFrom(String text) {
+        String[] columns = new String[]{COLUMN_NAME_ID};
+        Cursor cursor = db.query(TABLE_NAME_ANNOTATIONS, columns,null, null, null, null, null);
+        cursor.moveToLast();
+        return Integer.parseInt(cursor.getString(0));
+    }
 }
